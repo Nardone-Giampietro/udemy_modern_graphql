@@ -1,12 +1,15 @@
 import {createServer} from "node:http";
-import {createSchema, createYoga} from "graphql-yoga";
+import {createPubSub} from "graphql-yoga";
+import {createSchema} from "graphql-yoga";
+import {createYoga} from "graphql-yoga";
 import {resolvers} from './resolvers.js';
 import fs from "node:fs";
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {db} from "./db.js"
+const pubsub = createPubSub();
 function getContext ({req}) {
-    return db;
+    return {db, pubsub};
 }
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

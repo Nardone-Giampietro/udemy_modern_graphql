@@ -5,6 +5,18 @@ type Query {
     me: User!
     post: Post!
 }
+
+enum UserRole {
+    ADMIN
+    GUEST
+}
+
+enum MutationType {
+    UPDATED
+    DELETED
+    CREATED
+}
+
 type User {
     id: ID!
     name: String!
@@ -34,7 +46,26 @@ type Post {
     author: User!
     comments: [Comment]!
 }
+
+
+type Subscription {
+    comment(postId: ID!): CommentSubscriptionPayload!
+    onCreatePost: PostSubscriptionPayload!
+    onDeletePost: PostSubscriptionPayload!
+    onUpdatePost: PostSubscriptionPayload!
+}
+
+type PostSubscriptionPayload{
+    mutation: MutationType!
+    data: Post!
+}
+type CommentSubscriptionPayload{
+    mutation: MutationType!
+    data: Comment!
+}
+
 type Mutation {
+    count: Int!
     createUser(input: CreateUserInput!): User!
     deleteUser(input: DeleteUserInput!): User!
     updateUser(input: UpdateUserInput!): User!

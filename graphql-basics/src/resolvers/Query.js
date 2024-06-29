@@ -2,14 +2,14 @@ const Query= {
     comments(_root, args, {commentData}, info) {
         return commentData;
     },
-    users(_root, {query}, {userData}, info) {
+    users(_root, {query}, {db:{userData}}, info) {
         if (query) {
             const data = userData.filter((user) => user.name.toLowerCase().includes(query.toLowerCase()));
             return data;
         }
         return userData;
     },
-    posts(_root, {query}, {postData}, info) {
+    posts(_root, {query}, {db:{postData}}, info) {
         if (query) {
             const data = postData.filter((post) => {
                 const cond1 = post.title.toLowerCase().includes(query.toLowerCase());
